@@ -3,9 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Calendar, Clock, Users, MessageSquare, Phone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { motion } from "framer-motion";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 export function Reservation() {
   const { toast } = useToast();
+  const { ref, isInView } = useScrollAnimation(0.1);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -67,32 +70,65 @@ export function Reservation() {
   );
 
   return (
-    <section id="reserve" className="py-24 bg-primary text-primary-foreground pattern-mandala">
+    <section id="reserve" className="py-24 bg-primary text-primary-foreground pattern-mandala" ref={ref}>
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-12">
-            <span className="text-accent font-semibold text-sm uppercase tracking-wider">
+          <motion.div 
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 40 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+            transition={{ duration: 0.6 }}
+          >
+            <motion.span 
+              className="text-accent font-semibold text-sm uppercase tracking-wider"
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
               Reservations
-            </span>
-            <h2 className="font-heading text-4xl md:text-5xl font-bold mt-2">
+            </motion.span>
+            <motion.h2 
+              className="font-heading text-4xl md:text-5xl font-bold mt-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
               Book Your Table
-            </h2>
-            <div className="w-24 h-1 mx-auto rounded-full bg-accent mt-4" />
-            <p className="text-primary-foreground/80 mt-6 max-w-xl mx-auto">
+            </motion.h2>
+            <motion.div 
+              className="w-24 h-1 mx-auto rounded-full bg-accent mt-4"
+              initial={{ scaleX: 0 }}
+              animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            />
+            <motion.p 
+              className="text-primary-foreground/80 mt-6 max-w-xl mx-auto"
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
               Reserve your spot for an unforgettable Rajasthani dining experience. 
               For immediate bookings, call us or message on WhatsApp.
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
           {/* Form */}
-          <form
+          <motion.form
             onSubmit={handleSubmit}
             className="bg-card text-foreground rounded-2xl p-8 shadow-2xl"
+            initial={{ opacity: 0, y: 50 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+            transition={{ duration: 0.7, delay: 0.4 }}
           >
             <div className="grid md:grid-cols-2 gap-6">
               {/* Name */}
-              <div className="space-y-2">
+              <motion.div 
+                className="space-y-2"
+                initial={{ opacity: 0, x: -20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+              >
                 <label className="text-sm font-medium text-foreground">
                   Your Name *
                 </label>
@@ -103,13 +139,18 @@ export function Reservation() {
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
                   }
-                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                   placeholder="Enter your name"
                 />
-              </div>
+              </motion.div>
 
               {/* Phone */}
-              <div className="space-y-2">
+              <motion.div 
+                className="space-y-2"
+                initial={{ opacity: 0, x: 20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+                transition={{ duration: 0.5, delay: 0.55 }}
+              >
                 <label className="text-sm font-medium text-foreground flex items-center gap-2">
                   <Phone className="w-4 h-4" />
                   Phone Number *
@@ -121,13 +162,18 @@ export function Reservation() {
                   onChange={(e) =>
                     setFormData({ ...formData, phone: e.target.value })
                   }
-                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                   placeholder="+91 XXXXX XXXXX"
                 />
-              </div>
+              </motion.div>
 
               {/* Email */}
-              <div className="space-y-2">
+              <motion.div 
+                className="space-y-2"
+                initial={{ opacity: 0, x: -20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+              >
                 <label className="text-sm font-medium text-foreground">
                   Email (for confirmation)
                 </label>
@@ -137,13 +183,18 @@ export function Reservation() {
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
                   }
-                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                   placeholder="your@email.com"
                 />
-              </div>
+              </motion.div>
 
               {/* Date */}
-              <div className="space-y-2">
+              <motion.div 
+                className="space-y-2"
+                initial={{ opacity: 0, x: 20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+                transition={{ duration: 0.5, delay: 0.65 }}
+              >
                 <label className="text-sm font-medium text-foreground flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
                   Date *
@@ -155,12 +206,17 @@ export function Reservation() {
                   onChange={(e) =>
                     setFormData({ ...formData, date: e.target.value })
                   }
-                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                 />
-              </div>
+              </motion.div>
 
               {/* Time */}
-              <div className="space-y-2">
+              <motion.div 
+                className="space-y-2"
+                initial={{ opacity: 0, x: -20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                transition={{ duration: 0.5, delay: 0.7 }}
+              >
                 <label className="text-sm font-medium text-foreground flex items-center gap-2">
                   <Clock className="w-4 h-4" />
                   Time *
@@ -171,7 +227,7 @@ export function Reservation() {
                   onChange={(e) =>
                     setFormData({ ...formData, time: e.target.value })
                   }
-                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                 >
                   <option value="">Select time</option>
                   <option value="12:00">12:00 PM</option>
@@ -187,10 +243,15 @@ export function Reservation() {
                   <option value="21:30">9:30 PM</option>
                   <option value="22:00">10:00 PM</option>
                 </select>
-              </div>
+              </motion.div>
 
               {/* Guests */}
-              <div className="space-y-2">
+              <motion.div 
+                className="space-y-2"
+                initial={{ opacity: 0, x: 20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+                transition={{ duration: 0.5, delay: 0.75 }}
+              >
                 <label className="text-sm font-medium text-foreground flex items-center gap-2">
                   <Users className="w-4 h-4" />
                   Number of Guests *
@@ -201,7 +262,7 @@ export function Reservation() {
                   onChange={(e) =>
                     setFormData({ ...formData, guests: e.target.value })
                   }
-                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                 >
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                     <option key={num} value={num}>
@@ -210,10 +271,15 @@ export function Reservation() {
                   ))}
                   <option value="10+">10+ (Large Party)</option>
                 </select>
-              </div>
+              </motion.div>
 
               {/* Special Requests */}
-              <div className="space-y-2 md:col-span-2">
+              <motion.div 
+                className="space-y-2 md:col-span-2"
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.5, delay: 0.8 }}
+              >
                 <label className="text-sm font-medium text-foreground flex items-center gap-2">
                   <MessageSquare className="w-4 h-4" />
                   Special Requests
@@ -224,54 +290,69 @@ export function Reservation() {
                   onChange={(e) =>
                     setFormData({ ...formData, requests: e.target.value })
                   }
-                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                   placeholder="Birthday, anniversary, dietary needs..."
                 />
-              </div>
+              </motion.div>
             </div>
 
             {/* Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 mt-8">
-              <Button
-                type="submit"
-                variant="gold"
-                size="lg"
-                className="flex-1"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Confirming..." : "Confirm Reservation"}
-              </Button>
-              <Button
-                type="button"
-                variant="whatsapp"
-                size="lg"
-                className="flex-1"
-                asChild
-              >
-                <a
-                  href={`https://api.whatsapp.com/send?phone=917545800700&text=${whatsappMessage}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4 mt-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.5, delay: 0.85 }}
+            >
+              <motion.div className="flex-1" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button
+                  type="submit"
+                  variant="gold"
+                  size="lg"
+                  className="w-full"
+                  disabled={isSubmitting}
                 >
-                  Book via WhatsApp
-                </a>
-              </Button>
-            </div>
-          </form>
+                  {isSubmitting ? "Confirming..." : "Confirm Reservation"}
+                </Button>
+              </motion.div>
+              <motion.div className="flex-1" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button
+                  type="button"
+                  variant="whatsapp"
+                  size="lg"
+                  className="w-full"
+                  asChild
+                >
+                  <a
+                    href={`https://api.whatsapp.com/send?phone=917545800700&text=${whatsappMessage}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Book via WhatsApp
+                  </a>
+                </Button>
+              </motion.div>
+            </motion.div>
+          </motion.form>
 
           {/* Phone CTA */}
-          <div className="text-center mt-8">
+          <motion.div 
+            className="text-center mt-8"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.5, delay: 1 }}
+          >
             <p className="text-primary-foreground/80 mb-2">
               Prefer to call? We're happy to help!
             </p>
-            <a
+            <motion.a
               href="tel:+917545800700"
               className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-semibold text-lg transition-colors"
+              whileHover={{ scale: 1.05 }}
             >
               <Phone className="w-5 h-5" />
               075458 00700
-            </a>
-          </div>
+            </motion.a>
+          </motion.div>
         </div>
       </div>
     </section>
