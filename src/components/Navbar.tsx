@@ -50,7 +50,9 @@ export function Navbar() {
             }}
             className="flex items-center gap-2"
           >
-            <span className="font-heading text-2xl font-bold text-primary">
+            <span className={`font-heading text-2xl font-bold transition-colors drop-shadow-md ${
+              scrolled ? "text-primary" : "text-white"
+            }`}>
               Banjara
             </span>
           </a>
@@ -76,7 +78,9 @@ export function Navbar() {
 
           {/* CTA Buttons */}
           <div className="hidden lg:flex items-center gap-4">
-            <a href="tel:+917545800700" className="flex items-center gap-2 text-sm font-medium text-primary">
+            <a href="tel:+917545800700" className={`flex items-center gap-2 text-sm font-medium transition-colors drop-shadow-md ${
+              scrolled ? "text-primary" : "text-white"
+            }`}>
               <Phone className="w-4 h-4" />
               075458 00700
             </a>
