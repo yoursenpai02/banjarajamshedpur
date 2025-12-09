@@ -2,12 +2,14 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, Users, MessageSquare, Phone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 export function Reservation() {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
+    email: "",
     date: "",
     time: "",
     guests: "2",
@@ -19,24 +21,45 @@ export function Reservation() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const { error } = await supabase.from("reservations").insert({
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email || null,
+        date: formData.date,
+        time: formData.time,
+        guests: parseInt(formData.guests) || 2,
+        special_requests: formData.requests || null,
+        status: "pending",
+      });
 
-    toast({
-      title: "Reservation Confirmed!",
-      description:
-        "Thank you! Your table at Banjara is confirmed. We will call to reconfirm 2 hours before your booking.",
-    });
+      if (error) throw error;
 
-    setFormData({
-      name: "",
-      phone: "",
-      date: "",
-      time: "",
-      guests: "2",
-      requests: "",
-    });
-    setIsSubmitting(false);
+      toast({
+        title: "Reservation Confirmed!",
+        description:
+          "Thank you! Your table at Banjara is confirmed. We will call to reconfirm 2 hours before your booking.",
+      });
+
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        date: "",
+        time: "",
+        guests: "2",
+        requests: "",
+      });
+    } catch (error) {
+      console.error("Reservation error:", error);
+      toast({
+        title: "Booking Failed",
+        description: "Something went wrong. Please try again or call us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const whatsappMessage = encodeURIComponent(
@@ -100,6 +123,22 @@ export function Reservation() {
                   }
                   className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                   placeholder="+91 XXXXX XXXXX"
+                />
+              </div>
+
+              {/* Email */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-foreground">
+                  Email (for confirmation)
+                </label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="your@email.com"
                 />
               </div>
 
@@ -174,7 +213,7 @@ export function Reservation() {
               </div>
 
               {/* Special Requests */}
-              <div className="space-y-2">
+              <div className="space-y-2 md:col-span-2">
                 <label className="text-sm font-medium text-foreground flex items-center gap-2">
                   <MessageSquare className="w-4 h-4" />
                   Special Requests
