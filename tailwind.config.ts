@@ -100,12 +100,36 @@ export default {
           "0%": { backgroundPosition: "-200% 0" },
           "100%": { backgroundPosition: "200% 0" },
         },
+        "text-reveal": {
+          "0%": { 
+            opacity: "0",
+            transform: "translateY(40px)",
+            filter: "blur(10px)"
+          },
+          "100%": { 
+            opacity: "1",
+            transform: "translateY(0)",
+            filter: "blur(0)"
+          },
+        },
+        "text-slide-up": {
+          "0%": { 
+            opacity: "0",
+            transform: "translateY(100%)",
+          },
+          "100%": { 
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         float: "float 3s ease-in-out infinite",
         shimmer: "shimmer 2s linear infinite",
+        "text-reveal": "text-reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "text-slide-up": "text-slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

@@ -45,12 +45,16 @@ export function Hero() {
           </div>
 
           {/* Headline */}
-          <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold text-primary-foreground leading-tight animate-fade-up stagger-1">
-            Banjara
-          </h1>
-          <p className="font-heading text-2xl md:text-3xl text-accent italic animate-fade-up stagger-2">
-            Authentic Rajasthani Thali & Global Thali Delights
-          </p>
+          <div className="overflow-hidden">
+            <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold text-primary-foreground leading-tight opacity-0 animate-text-reveal">
+              Banjara
+            </h1>
+          </div>
+          <div className="overflow-hidden">
+            <p className="font-heading text-2xl md:text-3xl text-accent italic opacity-0 animate-text-slide-up [animation-delay:0.3s]">
+              Authentic Rajasthani Thali & Global Thali Delights
+            </p>
+          </div>
 
           {/* Subhead */}
           <p className="text-lg md:text-xl text-primary-foreground/90 max-w-2xl mx-auto animate-fade-up stagger-3">
