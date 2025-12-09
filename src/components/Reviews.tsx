@@ -1,4 +1,6 @@
 import { Star, Quote } from "lucide-react";
+import { motion } from "framer-motion";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const reviews = [
   {
@@ -28,49 +30,98 @@ const reviews = [
 ];
 
 export function Reviews() {
+  const { ref, isInView } = useScrollAnimation(0.1);
+  const { ref: cardsRef, isInView: cardsInView } = useScrollAnimation(0.2);
+
   return (
-    <section id="reviews" className="py-24 bg-cream pattern-rajasthani">
+    <section id="reviews" className="py-24 bg-cream pattern-rajasthani" ref={ref}>
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <span className="text-accent font-semibold text-sm uppercase tracking-wider">
+        <motion.div 
+          className="text-center max-w-2xl mx-auto mb-12"
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+          transition={{ duration: 0.6 }}
+        >
+          <motion.span 
+            className="text-accent font-semibold text-sm uppercase tracking-wider"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             Testimonials
-          </span>
-          <h2 className="font-heading text-4xl md:text-5xl font-bold text-primary mt-2">
+          </motion.span>
+          <motion.h2 
+            className="font-heading text-4xl md:text-5xl font-bold text-primary mt-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
             What Our Guests Say
-          </h2>
-          <div className="section-divider mt-4" />
+          </motion.h2>
+          <motion.div 
+            className="section-divider mt-4"
+            initial={{ scaleX: 0 }}
+            animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          />
           
           {/* Rating Summary */}
-          <div className="flex items-center justify-center gap-4 mt-8">
+          <motion.div 
+            className="flex items-center justify-center gap-4 mt-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
-                <Star
+                <motion.div
                   key={i}
-                  className={`w-6 h-6 ${
-                    i < 4 ? "fill-accent text-accent" : "fill-accent/50 text-accent/50"
-                  }`}
-                />
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+                  transition={{ duration: 0.3, delay: 0.6 + i * 0.1 }}
+                >
+                  <Star
+                    className={`w-6 h-6 ${
+                      i < 4 ? "fill-accent text-accent" : "fill-accent/50 text-accent/50"
+                    }`}
+                  />
+                </motion.div>
               ))}
             </div>
             <span className="font-heading text-3xl font-bold text-primary">4.4</span>
             <span className="text-muted-foreground">
               based on 4,403 reviews
             </span>
-          </div>
-          <p className="text-sm text-muted-foreground mt-2">
+          </motion.div>
+          <motion.p 
+            className="text-sm text-muted-foreground mt-2"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.4, delay: 0.8 }}
+          >
             ✓ Updated by this business 5 weeks ago
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* Reviews Grid */}
-        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto" ref={cardsRef}>
           {reviews.map((review, index) => (
-            <div
+            <motion.div
               key={index}
-              className="bg-card rounded-xl p-6 shadow-lg border border-border hover:shadow-xl transition-shadow"
+              className="bg-card rounded-xl p-6 shadow-lg border border-border"
+              initial={{ opacity: 0, y: 40, rotateX: 10 }}
+              animate={cardsInView ? { opacity: 1, y: 0, rotateX: 0 } : { opacity: 0, y: 40, rotateX: 10 }}
+              transition={{ duration: 0.5, delay: index * 0.15 }}
+              whileHover={{ y: -5, boxShadow: "0 20px 40px -15px rgba(0, 0, 0, 0.15)" }}
             >
-              <Quote className="w-8 h-8 text-accent/30 mb-4" />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={cardsInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
+                transition={{ duration: 0.4, delay: 0.2 + index * 0.15 }}
+              >
+                <Quote className="w-8 h-8 text-accent/30 mb-4" />
+              </motion.div>
               
               <p className="text-foreground leading-relaxed mb-6">
                 "{review.text}"
@@ -83,33 +134,50 @@ export function Reviews() {
                 </div>
                 <div className="flex items-center gap-1">
                   {[...Array(5)].map((_, i) => (
-                    <Star
+                    <motion.div
                       key={i}
-                      className={`w-4 h-4 ${
-                        i < review.rating
-                          ? "fill-accent text-accent"
-                          : "fill-muted text-muted"
-                      }`}
-                    />
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={cardsInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+                      transition={{ duration: 0.2, delay: 0.4 + index * 0.15 + i * 0.05 }}
+                    >
+                      <Star
+                        className={`w-4 h-4 ${
+                          i < review.rating
+                            ? "fill-accent text-accent"
+                            : "fill-muted text-muted"
+                        }`}
+                      />
+                    </motion.div>
                   ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
         {/* CTA */}
-        <div className="text-center mt-12">
-          <a
+        <motion.div 
+          className="text-center mt-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={cardsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+        >
+          <motion.a
             href="https://www.google.com/maps/place/Banjara"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors"
+            whileHover={{ x: 5 }}
           >
             Read all reviews on Google
-            <span>→</span>
-          </a>
-        </div>
+            <motion.span
+              animate={{ x: [0, 5, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              →
+            </motion.span>
+          </motion.a>
+        </motion.div>
       </div>
     </section>
   );
