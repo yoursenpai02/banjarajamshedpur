@@ -22,6 +22,7 @@ export function Hero() {
           alt="Authentic Rajasthani Thali at Banjara Restaurant"
           className="w-full h-full object-cover opacity-80"
         />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
         <div className="absolute inset-0 hero-overlay pattern-mandala" />
       </div>
 
