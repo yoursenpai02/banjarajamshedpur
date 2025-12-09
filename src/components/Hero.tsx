@@ -20,7 +20,7 @@ export function Hero() {
         <img
           src={heroImage}
           alt="Authentic Rajasthani Thali at Banjara Restaurant"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover opacity-80"
         />
         <div className="absolute inset-0 hero-overlay pattern-mandala" />
       </div>
