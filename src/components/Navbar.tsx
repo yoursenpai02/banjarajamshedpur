@@ -100,7 +100,7 @@ export function Navbar() {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="lg:hidden absolute top-20 left-0 right-0 bg-background/98 backdrop-blur-lg border-b border-border shadow-lg animate-fade-in">
+          <div className="lg:hidden absolute top-20 left-0 right-0 bg-background backdrop-blur-md border-b border-border shadow-xl animate-fade-in">
             <div className="container mx-auto px-4 py-6 space-y-4">
               {navLinks.map((link) => (
                 <a
