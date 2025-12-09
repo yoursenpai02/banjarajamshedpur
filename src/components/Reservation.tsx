@@ -1,0 +1,240 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Calendar, Clock, Users, MessageSquare, Phone } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+
+export function Reservation() {
+  const { toast } = useToast();
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    date: "",
+    time: "",
+    guests: "2",
+    requests: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // Simulate form submission
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    toast({
+      title: "Reservation Confirmed!",
+      description:
+        "Thank you! Your table at Banjara is confirmed. We will call to reconfirm 2 hours before your booking.",
+    });
+
+    setFormData({
+      name: "",
+      phone: "",
+      date: "",
+      time: "",
+      guests: "2",
+      requests: "",
+    });
+    setIsSubmitting(false);
+  };
+
+  const whatsappMessage = encodeURIComponent(
+    `Hello Banjara — I want to book a table.\nName: ${formData.name}\nDate: ${formData.date}\nTime: ${formData.time}\nGuests: ${formData.guests}\nSpecial requests: ${formData.requests || "None"}`
+  );
+
+  return (
+    <section id="reserve" className="py-24 bg-primary text-primary-foreground pattern-mandala">
+      <div className="container mx-auto px-4">
+        <div className="max-w-4xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <span className="text-accent font-semibold text-sm uppercase tracking-wider">
+              Reservations
+            </span>
+            <h2 className="font-heading text-4xl md:text-5xl font-bold mt-2">
+              Book Your Table
+            </h2>
+            <div className="w-24 h-1 mx-auto rounded-full bg-accent mt-4" />
+            <p className="text-primary-foreground/80 mt-6 max-w-xl mx-auto">
+              Reserve your spot for an unforgettable Rajasthani dining experience. 
+              For immediate bookings, call us or message on WhatsApp.
+            </p>
+          </div>
+
+          {/* Form */}
+          <form
+            onSubmit={handleSubmit}
+            className="bg-card text-foreground rounded-2xl p-8 shadow-2xl"
+          >
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Name */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-foreground">
+                  Your Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
+                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Enter your name"
+                />
+              </div>
+
+              {/* Phone */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-foreground flex items-center gap-2">
+                  <Phone className="w-4 h-4" />
+                  Phone Number *
+                </label>
+                <input
+                  type="tel"
+                  required
+                  value={formData.phone}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
+                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="+91 XXXXX XXXXX"
+                />
+              </div>
+
+              {/* Date */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-foreground flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  Date *
+                </label>
+                <input
+                  type="date"
+                  required
+                  value={formData.date}
+                  onChange={(e) =>
+                    setFormData({ ...formData, date: e.target.value })
+                  }
+                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+
+              {/* Time */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-foreground flex items-center gap-2">
+                  <Clock className="w-4 h-4" />
+                  Time *
+                </label>
+                <select
+                  required
+                  value={formData.time}
+                  onChange={(e) =>
+                    setFormData({ ...formData, time: e.target.value })
+                  }
+                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  <option value="">Select time</option>
+                  <option value="12:00">12:00 PM</option>
+                  <option value="12:30">12:30 PM</option>
+                  <option value="13:00">1:00 PM</option>
+                  <option value="13:30">1:30 PM</option>
+                  <option value="14:00">2:00 PM</option>
+                  <option value="19:00">7:00 PM</option>
+                  <option value="19:30">7:30 PM</option>
+                  <option value="20:00">8:00 PM</option>
+                  <option value="20:30">8:30 PM</option>
+                  <option value="21:00">9:00 PM</option>
+                  <option value="21:30">9:30 PM</option>
+                  <option value="22:00">10:00 PM</option>
+                </select>
+              </div>
+
+              {/* Guests */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-foreground flex items-center gap-2">
+                  <Users className="w-4 h-4" />
+                  Number of Guests *
+                </label>
+                <select
+                  required
+                  value={formData.guests}
+                  onChange={(e) =>
+                    setFormData({ ...formData, guests: e.target.value })
+                  }
+                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                    <option key={num} value={num}>
+                      {num} {num === 1 ? "Guest" : "Guests"}
+                    </option>
+                  ))}
+                  <option value="10+">10+ (Large Party)</option>
+                </select>
+              </div>
+
+              {/* Special Requests */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-foreground flex items-center gap-2">
+                  <MessageSquare className="w-4 h-4" />
+                  Special Requests
+                </label>
+                <input
+                  type="text"
+                  value={formData.requests}
+                  onChange={(e) =>
+                    setFormData({ ...formData, requests: e.target.value })
+                  }
+                  className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Birthday, anniversary, dietary needs..."
+                />
+              </div>
+            </div>
+
+            {/* Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 mt-8">
+              <Button
+                type="submit"
+                variant="gold"
+                size="lg"
+                className="flex-1"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Confirming..." : "Confirm Reservation"}
+              </Button>
+              <Button
+                type="button"
+                variant="whatsapp"
+                size="lg"
+                className="flex-1"
+                asChild
+              >
+                <a
+                  href={`https://api.whatsapp.com/send?phone=917545800700&text=${whatsappMessage}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Book via WhatsApp
+                </a>
+              </Button>
+            </div>
+          </form>
+
+          {/* Phone CTA */}
+          <div className="text-center mt-8">
+            <p className="text-primary-foreground/80 mb-2">
+              Prefer to call? We're happy to help!
+            </p>
+            <a
+              href="tel:+917545800700"
+              className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-semibold text-lg transition-colors"
+            >
+              <Phone className="w-5 h-5" />
+              075458 00700
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
